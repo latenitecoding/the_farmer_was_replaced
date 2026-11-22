@@ -55,10 +55,7 @@ def farm_it(plot_size, etype):
 
     latency = plot_size * FARM_TICKS / get_drone_speed()
     grow_factor = get_grow_time_for(etype) / latency
-    min_water = latency * 0.01 + (grow_factor - 1) * 0.25
-
-    if min_water > 0.75:
-        min_water = 0.75
+    min_water = min(latency * 0.01 + (grow_factor - 1) * 0.25, 0.75)
 
     if (
             num_items(Items.Water) > 0

@@ -18,7 +18,7 @@ def dist_to(x0, x1):
 
     if dx > 0 and wrap_left < dx:
         return -wrap_left
-    if dx < 0 and wrap_right < -dx:
+    if dx < 0 and wrap_right < abs(dx):
         return wrap_right
 
     return dx
@@ -83,11 +83,7 @@ def move_n_dir(signed_dist, direction):
     # direction: North, South, East, or West indicating
     # the direction of movement for signed_ist > 0
 
-    sign = 1
-    if signed_dist < 0:
-        sign = -1
-
-    for _ in range(sign * signed_dist):
+    for _ in range(abs(signed_dist)):
         if signed_dist > 0:
             move(direction)
         else:
