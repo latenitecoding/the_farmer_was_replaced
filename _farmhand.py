@@ -24,6 +24,18 @@ def clear_plot(plot_dims, start_pos=[]):
                 move(get_next_move(plot_dims[1], i))
 
 
+def clear_plots(lo_plot_dims, lo_start_pos=[]):
+    # lo_plot_dims: List[int, int]
+    # lo_start_pos: List[int, int]
+
+    for i in range(len(lo_plot_dims)):
+        start_pos = []
+        if len(start_pos) > 0:
+            start_pos = lo_start_pos[i % len(lo_start_pos)]
+
+        clear_plot(lo_plot_dims[i], start_pos)
+
+
 def farm_it(plot_size, etype):
     # plot_size: int
     # etype: Entities
@@ -56,7 +68,7 @@ def farm_it(plot_size, etype):
     return True
 
 
-def farm_plot(plot_dims, lo_etypes, start_pos=[]):
+def farm_plot(plot_dims, lo_etypes=[], start_pos=[]):
     # plot_dims: [int, int]
     # lo_etypes: List[Entities]
     # start_pos: [int, int]
@@ -64,6 +76,9 @@ def farm_plot(plot_dims, lo_etypes, start_pos=[]):
 
     if len(start_pos) == 2:
         goto(start_pos)
+
+    if len(lo_etypes) == 0:
+        lo_etypes = [Entities.Grass]
 
     plot_size = plot_dims[0] * plot_dims[1]
 
@@ -78,6 +93,28 @@ def farm_plot(plot_dims, lo_etypes, start_pos=[]):
 
             if i + 1 < plot_size:
                 move(get_next_move(plot_dims[1], i))
+
+    return True
+
+
+def farm_plots(lo_plot_dims, lolo_etypes=[], lo_start_pos=[]):
+    # lo_plot_dims: List[int, int]
+    # lolo_etypes: List[List[Entities]]
+    # lo_start_pos: List[int, int]
+    # Returns False if unable to plany any etype
+
+    if len(lolo_etypes) == 0:
+        lolo_etypes = [[Entities.Grass]]
+
+    for i in range(len(lo_plot_dims)):
+        lo_etypes = lolo_etypes[i % len(lolo_etypes)]
+
+        start_pos = []
+        if len(lo_start_pos) > 0:
+            start_pos = lo_start_pos[i % len(lo_start_pos)]
+
+        if not farm_plot(lo_plot_dims[i], lo_etypes, start_pos):
+            return False
 
     return True
 
